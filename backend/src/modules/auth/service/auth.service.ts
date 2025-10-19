@@ -31,7 +31,7 @@ export class AuthService {
 
   async logIn(authLogInDto: AuthLogInDto, res: Response) {
     const { email, password } = authLogInDto;
-    const user = await this.userService.getUserByEmail(email);
+    const user = await this.userService.getByEmail(email);
     const checkPassword = await this.comparePassword(
       password,
       user.hashedPassword,

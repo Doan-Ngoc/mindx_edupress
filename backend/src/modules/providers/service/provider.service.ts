@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { CreateProviderDto } from '../dtos/create-provider.dto';
@@ -68,6 +68,19 @@ export class ProviderService {
     } finally {
       await queryRunner.release();
     }
+  }
+
+  async getByUserId(id: string): Promise<Provider> {
+    const provider = await this.providerRepository.findOne({
+      where: { user: { id } },
+      relations: ['user'],
+    });
+
+    if (!provider) {
+      throw new NotFoundException(`Provider with ID ${id} not found`);
+    }
+
+    return provider;
   }
 
   findAll() {

@@ -59,7 +59,7 @@ export class UserService {
     return await this.userRepository.save(newUser);
   }
 
-  async getUserByEmail(email: string): Promise<User> {
+  async getByEmail(email: string): Promise<User> {
     const user = await this.userRepository.findOne({
       where: { email },
       relations: ['role'],
@@ -67,6 +67,19 @@ export class UserService {
     if (!user) {
       throw new NotFoundException(`User not found`);
     }
+    return user;
+  }
+
+  async getById(id: string): Promise<User> {
+    const user = await this.userRepository.findOne({
+      where: { id },
+      relations: ['role'],
+    });
+
+    if (!user) {
+      throw new NotFoundException(`User with ID ${id} not found`);
+    }
+
     return user;
   }
 

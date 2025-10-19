@@ -21,7 +21,7 @@ export class Course extends BaseEntity {
   @JoinColumn({ name: 'created_by' })
   createdBy: Provider;
 
-  @Column({ name: 'title', type: 'varchar', length: 255 })
+  @Column({ name: 'title', type: 'varchar', length: 255, unique: true })
   title: string;
 
   @Column({ name: 'price', type: 'numeric' })

@@ -9,6 +9,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { CustomersModule } from './modules/customers/customers.module';
 import { ProviderModule } from './modules/providers/provider.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { CourseModule } from './modules/courses/course.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -29,6 +30,7 @@ import { AuthModule } from './modules/auth/auth.module';
     CustomersModule,
     ProviderModule,
     AuthModule,
+    CourseModule,
   ],
   controllers: [AppController],
   providers: [
