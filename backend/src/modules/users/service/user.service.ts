@@ -12,15 +12,17 @@ import { User } from '../entities/user.entity';
 import { Role } from '../../../enum/role.enum';
 import { UserRepository } from '../repositories/user.repository';
 import { RoleRepository } from '../../roles/repositories/role.repository';
+import { AuthService } from '../../auth/service/auth.service';
 @Injectable()
 export class UserService {
   constructor(
     private readonly userRepository: UserRepository,
     private readonly roleRepository: RoleRepository,
+    private readonly authService: AuthService,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const { email, userName, password } = createUserDto;
+    const { email, userName, password, role } = createUserDto;
 
     // Check if user with email already exists
     const existingUser = await this.userRepository.findOne({
@@ -33,7 +35,7 @@ export class UserService {
 
     // Find customer role
     const customerRole = await this.roleRepository.findOne({
-      where: { name: Role.CUSTOMER },
+      where: { name: role },
     });
 
     if (!customerRole) {
@@ -41,8 +43,9 @@ export class UserService {
     }
 
     // Hash password with salt
-    const saltRounds = 12;
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    const hashedPassword = this.authService.hashPassword(password);
+    // const saltRounds = 12;
+    // const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     // Create new user
     const newUser = this.userRepository.create({
@@ -54,6 +57,17 @@ export class UserService {
 
     // Save to database
     return await this.userRepository.save(newUser);
+  }
+
+  async getUserByEmail(email: string): Promise<User> {
+    const user = await this.userRepository.findOne({
+      where: { email },
+      relations: ['role'],
+    });
+    if (!user) {
+      throw new NotFoundException(`User not found`);
+    }
+    return user;
   }
 
   findAll() {

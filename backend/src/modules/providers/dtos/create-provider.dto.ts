@@ -6,7 +6,7 @@ import {
   IsNotEmpty,
 } from 'class-validator';
 
-export class CreateCustomerDto {
+export class CreateProviderDto {
   @IsEmail()
   @IsNotEmpty()
   email: string;
@@ -19,7 +19,19 @@ export class CreateCustomerDto {
   @IsNotEmpty()
   password: string;
 
+  @IsString()
+  @IsNotEmpty()
+  name: string;
+
   @IsOptional()
   @IsString()
   profilePicture?: string;
+
+  @IsOptional()
+  @IsString()
+  phone?: string;
+
+  @IsOptional()
+  @IsString()
+  description?: string;
 }

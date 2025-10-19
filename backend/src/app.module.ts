@@ -7,7 +7,8 @@ import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { typeormConfig } from './database/typeorm/data-source';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { CustomersModule } from './modules/customers/customers.module';
-
+import { ProviderModule } from './modules/providers/provider.module';
+import { AuthModule } from './modules/auth/auth.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -26,6 +27,8 @@ import { CustomersModule } from './modules/customers/customers.module';
         configService.get('typeorm') as TypeOrmModuleOptions,
     }),
     CustomersModule,
+    ProviderModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [

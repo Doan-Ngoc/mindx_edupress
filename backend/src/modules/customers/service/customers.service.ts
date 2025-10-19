@@ -7,6 +7,7 @@ import { Customer } from '../entities/customer.entity';
 import { UserService } from '../../users/service/user.service';
 import { CreateUserDto } from '../../users/dtos/create-user.dto';
 import { CustomerRepository } from '../repositories/customer.repository';
+import { Role } from '../../../enum/role.enum';
 
 @Injectable()
 export class CustomersService {
@@ -30,6 +31,7 @@ export class CustomersService {
         email,
         userName,
         password,
+        role: Role.CUSTOMER,
       };
 
       const newUser = await this.userService.create(createUserDto);
