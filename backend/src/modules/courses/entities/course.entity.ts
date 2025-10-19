@@ -27,6 +27,9 @@ export class Course extends BaseEntity {
   @Column({ name: 'price', type: 'numeric' })
   price: number;
 
+  @Column({ name: 'thumbnail', type: 'text', nullable: true })
+  thumbnail: string;
+
   @Column({ name: 'description', nullable: true, type: 'text' })
   description: string;
 

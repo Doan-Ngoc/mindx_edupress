@@ -25,7 +25,7 @@ export class CourseService {
     createCourseDto: CreateCourseDto,
     userId: string,
   ): Promise<Course> {
-    const { title, price, description } = createCourseDto;
+    const { title, price, thumbnail, description } = createCourseDto;
 
     const provider = await this.providerService.getByUserId(userId);
 
@@ -46,6 +46,7 @@ export class CourseService {
     const newCourse = this.courseRepository.create({
       title,
       price,
+      thumbnail,
       description,
       status: CourseStatus.ACTIVE,
       createdBy: provider,
