@@ -2,7 +2,6 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { CreateProviderDto } from '../dtos/create-provider.dto';
-import { UpdateProviderDto } from '../dtos/update-provider.dto';
 import { ProviderRepository } from '../repositories/provider.repository';
 import { Provider } from '../entities/provider.entity';
 import { UserService } from '../../users/service/user.service';
@@ -81,21 +80,5 @@ export class ProviderService {
     }
 
     return provider;
-  }
-
-  findAll() {
-    return `This action returns all provider`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} provider`;
-  }
-
-  update(id: number, updateProviderDto: UpdateProviderDto) {
-    return `This action updates a #${id} provider`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} provider`;
   }
 }

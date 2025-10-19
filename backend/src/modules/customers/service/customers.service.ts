@@ -1,8 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { CreateCustomerDto } from '../dtos/create-customer.dto';
-import { UpdateCustomerDto } from '../dtos/update-customer.dto';
 import { Customer } from '../entities/customer.entity';
 import { UserService } from '../../users/service/user.service';
 import { CreateUserDto } from '../../users/dtos/create-user.dto';
@@ -58,19 +57,16 @@ export class CustomersService {
     }
   }
 
-  findAll() {
-    return `This action returns all customers`;
-  }
+  async getByUserId(id: string): Promise<Customer> {
+    const customer = await this.customerRepository.findOne({
+      where: { user: { id } },
+      relations: ['user'],
+    });
 
-  findOne(id: number) {
-    return `This action returns a #${id} customer`;
-  }
+    if (!customer) {
+      throw new NotFoundException(`Customer with ID ${id} not found`);
+    }
 
-  update(id: number, updateCustomerDto: UpdateCustomerDto) {
-    return `This action updates a #${id} customer`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} customer`;
+    return customer;
   }
 }

@@ -3,16 +3,12 @@ import {
   ConflictException,
   NotFoundException,
 } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from '../dtos/create-user.dto';
-import { UpdateUserDto } from '../dtos/update-user.dto';
 import { User } from '../entities/user.entity';
-import { Role } from '../../../enum/role.enum';
 import { UserRepository } from '../repositories/user.repository';
 import { RoleRepository } from '../../roles/repositories/role.repository';
 import { AuthService } from '../../auth/service/auth.service';
+
 @Injectable()
 export class UserService {
   constructor(
@@ -44,8 +40,6 @@ export class UserService {
 
     // Hash password with salt
     const hashedPassword = this.authService.hashPassword(password);
-    // const saltRounds = 12;
-    // const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     // Create new user
     const newUser = this.userRepository.create({
@@ -81,21 +75,5 @@ export class UserService {
     }
 
     return user;
-  }
-
-  findAll() {
-    return `This action returns all user`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
-  }
-
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} user`;
   }
 }
