@@ -123,7 +123,7 @@ export class CourseService {
   ): Promise<Pagination<Course>> {
     const queryBuilder = this.courseRepository
       .createQueryBuilder('course')
-      .leftJoin('course.createdBy', 'provider');
+      .leftJoinAndSelect('course.createdBy', 'provider');
 
     if (search) {
       queryBuilder.where(

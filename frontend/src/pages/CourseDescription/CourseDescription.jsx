@@ -8,9 +8,6 @@ import Loading from "../../components/Loading";
 import "./CourseDescription.css";
 import {
   Button,
-  Dialog,
-  DialogBody,
-  DialogFooter,
 } from "@material-tailwind/react";
 
 const CourseDescription = () => {

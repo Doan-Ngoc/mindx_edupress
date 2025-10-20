@@ -38,7 +38,7 @@ export class ProviderService {
         email,
         userName,
         password,
-        role: Role.PROVIDER,
+        roleName: Role.PROVIDER,
       };
 
       const newUser = await this.userService.create(createUserDto);

@@ -30,9 +30,10 @@ export class CustomersService {
         email,
         userName,
         password,
-        role: Role.CUSTOMER,
+        roleName: Role.CUSTOMER,
       };
 
+      console.log('Creating user with DTO:', createUserDto);
       const newUser = await this.userService.create(createUserDto);
 
       // Then, create the customer with the created user

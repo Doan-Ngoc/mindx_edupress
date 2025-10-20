@@ -18,7 +18,7 @@ export class UserService {
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const { email, userName, password, role } = createUserDto;
+    const { email, userName, password, roleName } = createUserDto;
 
     // Check if user with email already exists
     const existingUser = await this.userRepository.findOne({
@@ -29,14 +29,14 @@ export class UserService {
       throw new ConflictException('User with this email already exists');
     }
 
-    // Find customer role
-    const customerRole = await this.roleRepository.findOne({
-      where: { name: role },
-    });
+     // Find the role entity
+  const role = await this.roleRepository.findOne({
+    where: { name: roleName }, // Assuming role is passed as string like 'customer', 'provider'
+  });
 
-    if (!customerRole) {
-      throw new NotFoundException('Customer role not found');
-    }
+  if (!role) {
+    throw new NotFoundException(`Role ${roleName} not found`);
+  }
 
     // Hash password with salt
     const hashedPassword = this.authService.hashPassword(password);
@@ -46,7 +46,7 @@ export class UserService {
       email,
       userName,
       hashedPassword,
-      role: customerRole,
+      role,
     });
 
     // Save to database
