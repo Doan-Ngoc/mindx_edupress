@@ -8,23 +8,17 @@ const SearchBar = () => {
   const navigate = useNavigate();
 
   async function onSearchFormSubmit(data) {
-    const response = await request.post('/job/search', {
-      searchTerm: data.searchTerm,
-    });
-    try {
-      const receivedData = await response.data;
-      const queryString = data.searchTerm.replace(/ /g, '-');
-      navigate(`/job/search?q=${queryString}`, {
-        state: { searchResult: receivedData },
-      });
-    } catch (error) {
-      console.log(
-        'Error fetching search results:',
-        error.response?.data?.message || error.message,
-      );
-      toast.error('Opps! Something went wrong.');
-    }
+  try {
+    const queryString = data.searchTerm.replace(/ /g, '-');
+    navigate(`/courses/search?q=${queryString}`);
+  } catch (error) {
+    console.log(
+      'Error searching:',
+      error.response?.data?.message || error.message,
+    );
+    toast.error('Opps! Something went wrong.');
   }
+}
 
   return (
     <form onSubmit={handleSubmit(onSearchFormSubmit)}>

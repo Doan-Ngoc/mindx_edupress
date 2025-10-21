@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 
 const CourseItem = (props) => {
   const { courseData } = props;
-  console.log(courseData);
   return (
     <article className="h-36 flex gap-12 py-4 px-10 rounded-xl shadow-md bg-[#fff] text-lg">
       <div className="w-24 h-24 bg-white avatar">
