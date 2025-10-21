@@ -27,7 +27,7 @@ export class ProviderService {
         email,
         userName,
         password,
-        name,
+        displayedName,
         profilePicture,
         phone,
         description,
@@ -46,10 +46,9 @@ export class ProviderService {
       // Then, create the provider with the created user
       const newProvider = queryRunner.manager.create(Provider, {
         user: newUser,
-        name,
+        displayedName,
         profilePicture,
         phone,
-        email,
         description,
       });
 

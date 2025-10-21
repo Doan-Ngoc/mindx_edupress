@@ -21,7 +21,7 @@ export class CreateProviderDto {
 
   @IsString()
   @IsNotEmpty()
-  name: string;
+  displayedName: string;
 
   @IsOptional()
   @IsString()

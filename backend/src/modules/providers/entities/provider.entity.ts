@@ -17,17 +17,14 @@ export class Provider extends BaseEntity {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @Column({ name: 'name', type: 'varchar', length: 255, unique: true })
-  name: string;
+  @Column({ name: 'displayed_name', type: 'varchar', length: 255, unique: true })
+  displayedName: string;
 
   @Column({ name: 'profile_picture', type: 'text', nullable: true })
   profilePicture: string;
 
   @Column({ name: 'phone', type: 'varchar', length: 20, nullable: true })
   phone: string;
-
-  @Column({ name: 'email', type: 'varchar', length: 255, nullable: true })
-  email: string;
 
   @Column({ name: 'description', nullable: true, type: 'text' })
   description: string;
