@@ -3,6 +3,7 @@ import {
   BadRequestException,
   forwardRef,
   Inject,
+  UnauthorizedException,
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { AuthLogInDto } from '../dtos/authLogIn.dto';
@@ -71,6 +72,52 @@ export class AuthService {
     return {
       accessToken: accessToken,
     };
+  }
+
+  //Verify Access Token
+  async verifyAccessToken(accessToken: string) {
+    try {
+      const payload = verifyJwt(
+        accessToken,
+        this.configService.getOrThrow('JWT_ACCESS_KEY') as string,
+      );
+      const user = await this.userService.getById(payload.id);
+      return { 
+        id: user.id,
+        role: user.role.name,
+        userName: user.userName
+       };
+    } catch (e) {
+      throw new UnauthorizedException('Invalid access token');
+    }
+  }
+
+  //Refresh Access Token
+  async refreshAccessToken(refreshToken: string) {
+    try {
+      const payload = verifyJwt(
+        refreshToken,
+        this.configService.getOrThrow('JWT_REFRESH_KEY') as string,
+      );  
+      const user = await this.userService.getById(payload.id);
+      const newAccessToken = signJwt(
+        {
+          id: user.id,
+          roleId: user.role.id,
+          iat: Math.floor(Date.now() / 1000),
+        },
+        this.configService.getOrThrow('JWT_ACCESS_KEY') as string,
+        {
+          expiresIn: this.configService.getOrThrow('JWT_ACCESS_EXPIRE'),
+        },
+      );
+
+      return {
+        accessToken: newAccessToken,
+      };
+    } catch (e) {
+      throw new UnauthorizedException('Invalid refresh token');
+    }
   }
 
   //Log out

@@ -127,7 +127,7 @@ export class CourseService {
 
     if (search) {
       queryBuilder.where(
-        'LOWER(course.title) LIKE :search OR LOWER(provider.name) LIKE :search',
+        'LOWER(course.title) LIKE :search OR LOWER(provider.displayedName) LIKE :search',
         { search: `%${search.toLowerCase()}%` },
       );
     }

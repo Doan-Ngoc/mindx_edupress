@@ -34,7 +34,7 @@ export function AlreadyLogin() {
         <p className="text-slate-600 mt-5 lg:text-lg mb-5">
          You are already logged in. 
         </p>
-        <Button variant="outlined" color="purple">
+        <Button >
           <Link to="/">Back to home</Link>
         </Button>
       </div>

@@ -8,6 +8,15 @@ import SearchPage from "./pages/SearchPage/SearchPage";
 import { Signup } from "./pages/SignUp/Signup";
 import NewCustomer from "./pages/SignUp/NewCustomer";
 import NewProvider from "./pages/SignUp/NewProvider";
+import Login from "./pages/Login";
+import CreateCourse from "./pages/CreateCourse/CreateCourse";
+import ManageCoursesForProviders from "./pages/ManageCourses/ManageCoursesForProviders";
+import ManageCoursesForCustomers from "./pages/ManageCourses/ManageCoursesForCustomers";
+import ProviderOnly from "./components/ProviderOnly";
+import CustomerOnly from "./components/CustomerOnly";
+import { ErrorPage } from "./pages/errors/ErrorPage";
+import {NoPermission} from "./pages/errors/NoPermission";
+
 function App() {
   return (
     <div className="App">
@@ -20,7 +29,18 @@ function App() {
         <Route path="/signup/customer" element={<NewCustomer />} />
         <Route path="/signup/provider" element={<NewProvider />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/error/500" element={<ErrorPage />} />
+        <Route path="/error/no-permission" element={<NoPermission />} />
+          <Route element={<ProviderOnly />}>
+          <Route path="/course/new" element={<CreateCourse />} />
+          <Route path="/courses/created" element={<ManageCoursesForProviders />} />
+          </Route>
+          <Route element={<CustomerOnly />}>
+          <Route path="/courses/enrolled" element={<ManageCoursesForCustomers />} />
+          </Route>
         <Route path="/" element={<Homepage />} />
+
       </Routes>
       </section>
       </AuthProvider>

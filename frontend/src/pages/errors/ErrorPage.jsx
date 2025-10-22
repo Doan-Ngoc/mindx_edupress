@@ -33,9 +33,9 @@ export function ErrorPage() {
         </h1>
         <p className="text-slate-600 mt-5 lg:text-lg mb-5">
           Oops something went wrong. Try to refresh the page or <br /> feel
-          free to contact us if the problem presizts.
+          free to contact us if the problem persists.
         </p>
-        <Button variant="outlined" color="purple">
+        <Button className='text-white'>
           <Link to="/">Back to home</Link>
         </Button>
       </div>

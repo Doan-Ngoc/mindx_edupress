@@ -1,3 +1,4 @@
+import "./CourseDescription.css";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 // import { useAuth } from "../../hooks/useAuth";
@@ -5,17 +6,16 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import { request } from "../../utils/request";
 import toast from "react-hot-toast";
 import Loading from "../../components/Loading";
-import "./CourseDescription.css";
-import {
-  Button,
-} from "@material-tailwind/react";
+import { useAuth } from "../../hooks/useAuth";
+import { Button } from "@material-tailwind/react";
+import * as courseApi from "../../api/course";
 
 const CourseDescription = () => {
+   const navigate = useNavigate();
+     const { courseId } = useParams();
+    const { userRole, isLoggedIn } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
-  const navigate = useNavigate();
-  const { courseId } = useParams();
-  const [courseData, setCourseData] = useState({});
-  // const { isLoggedIn, accessToken, accountRole } = useAuth();
+  const [courseData, setCourseData] = useState();
   const [openDialog, setOpenDialog] = useState(false);
 
   //Fetch course data
@@ -25,6 +25,25 @@ const CourseDescription = () => {
       setIsLoading(false);
     });
   }, [courseId]);
+
+  const enrollCourse = async () => {
+    try {
+    if (!isLoggedIn) {
+      toast.error("Please log in to enroll in this course.");
+      return;
+    }
+    if (userRole !== "customer") {
+      navigate("/error/500")
+    }
+    await courseApi.enrollCourse(courseId);
+    toast.success("Enrollment successful!");
+    navigate("/courses/enrolled");
+  } catch (err) {
+        console.error("Enrollment failed:", err);
+    toast.error("An error occurred.");
+  }
+  }
+  // Will implement enrollment logic later
 
   //Submit application
   // const submitApplication = async () => {
@@ -42,12 +61,13 @@ const CourseDescription = () => {
   //   }
   // };
 
-  return isLoading ? (
-    <Loading />
-  ) : (
-    <div className="job-details grow flex flex-col">
-      <div>
-        {/* Header with job details */}
+  return (
+    isLoading ? (
+      <Loading />
+    ) : (
+      <div className="job-details grow flex flex-col">
+        <div>
+          {/* Header with job details */}
         <header className="hero rounded-md">
           <div className="hero-content w-full p-8 flex">
             <div className="w-1/4">
@@ -63,7 +83,7 @@ const CourseDescription = () => {
               </h1>
               <Link to={`/profile/company/${courseData.createdBy}`}>
                 <p className="cursor-pointer text-xl py-6 text-left pl-4">
-                  {courseData.createdBy.name}
+                  {courseData.createdBy.displayedName}
                 </p>
               </Link>
               <ul className="grid grid-cols-2 gap-4 text-lg text-left">
@@ -79,68 +99,16 @@ const CourseDescription = () => {
           {courseData.description}
         </main>
         {/* Enroll button */}
-        <Button
-          className="btn mt-14 mx-auto text-black text-base font-medium w-1/4 bg-[#ffce00] hover:bg-[#ffce00]"
-          onClick={() => setOpenDialog(!openDialog)}
-        >
-          Enroll Now
-        </Button>
-
-        {/* Dialog after clicking Enroll Now button */}
-        {/* <Dialog open={openDialog} size="xs" className="w-44">
-          {isLoggedIn ? (
-            // Dialog for applicant
-            accountRole === "applicant" ? (
-              <DialogBody className="font-normal text-lg text-center ">
-                Would you like to enroll in this course? Click OK to proceed.
-              </DialogBody>
-            ) : (
-              //Dialog if logged in as other roles
-              <DialogBody className="font-normal text-lg text-center ">
-                You need an applicant account to enroll in courses.
-              </DialogBody>
-            )
-          ) : (
-            //Dialog if user haven't logged in
-            <DialogBody className="font-medium text-lg text-center ">
-              Log in required
-            </DialogBody>
-          )} */}
-
-        {/* Dialog to confirm enrollment */}
-        {/* {accountRole === "applicant" ? (
-            <DialogFooter className="flex justify-center gap-3">
-              <Button
-                className="bg-[#ffce00] text-black text-base font-medium"
-                // onClick={submitApplication}
-              >
-                <span>Yes</span>
-              </Button>
-              <Button
-                variant="text"
-                color="gray"
-                onClick={() => setOpenDialog(!openDialog)}
-                className="mr-1 text-base"
-              >
-                <span>Cancel</span>
-              </Button>
-            </DialogFooter>
-          ) : (
-            //Dialog to abandon action if not logged in as customer
-            <DialogFooter className="flex justify-center">
-              <Button
-                className="bg-[#ffce00] text-base text-black "
-                color="gray"
-                onClick={() => setOpenDialog(!openDialog)}
-              >
-                <span>OK</span>
-              </Button>
-            </DialogFooter>
-          )}
-        </Dialog> */}
+        {userRole !== "provider" && (
+          <Button
+            className="btn mt-14 mx-auto text-black text-base font-medium w-1/4 bg-[#ffce00] hover:bg-[#ffce00]"
+            onClick={enrollCourse}
+          >
+            Enroll Now
+          </Button>
+        )}
       </div>
     </div>
-  );
+  ));
 };
-
 export default CourseDescription;

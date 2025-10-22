@@ -37,7 +37,7 @@ export default function NewCustomer() {
       navigate(`/signin`);
     } catch (err) {
       console.error(
-        "Creating applicant profile failed: ",
+        "Creating profile failed: ",
         err.response?.data?.message || err.message
       );
       setIsLoading(false);

@@ -34,7 +34,7 @@ export function NoPermission() {
         <p className="text-slate-600 mt-5 lg:text-lg mb-5">
          You have no permission to access this page.  
         </p>
-        <Button variant="outlined" color="purple">
+        <Button className='text-white'>
           <Link to="/">Back to home</Link>
         </Button>
       </div>

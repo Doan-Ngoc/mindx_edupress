@@ -29,7 +29,7 @@ export function NotFoundPage() {
           The page you are looking for does not exist or <br />
           has been removed.
         </p>
-        <Button variant="outlined" color="purple">
+        <Button className='text-white'>
           <Link to="/home">Back to home</Link>
         </Button>
       </div>

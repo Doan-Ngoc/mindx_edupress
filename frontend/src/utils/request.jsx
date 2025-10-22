@@ -24,7 +24,8 @@ request.interceptors.response.use(
   async (error) => {
     if (error.response?.status === 401) {
       try {
-        const newAccessToken = await authApi.refreshAccessToken();
+        const response = await authApi.refreshAccessToken();
+        const newAccessToken = response.data.accessToken;
         if (newAccessToken) {
           updateAccessToken(newAccessToken); // ✅ Update token in context
           // Retry original request with new token

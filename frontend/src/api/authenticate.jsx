@@ -22,11 +22,11 @@ export const signout = async () => {
 export const refreshAccessToken = async () => {
   try {
     const response = await request.post(
-      "/auth/token/refresh",
+      "/auth/refresh",
       {},
       { withCredentials: true }
     );
-    return response.data.accessToken;
+    return response;
   } catch (error) {
     throw new Error("Token reissue failed");
   }
@@ -34,12 +34,12 @@ export const refreshAccessToken = async () => {
 
 export const verifyAccessToken = async (accessToken) => {
   try {
-    const response = await request.get("/auth/token/verify", {
+    const response = await request.get("auth/verify/access-token", {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    return response.data;
+    return response;
   } catch (error) {
     console.error(
       "Token verification failed",

@@ -1,30 +1,31 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth';
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth";
 // import { useJob } from '../../hooks/useJob';
-import * as authApi from '../../api/authenticate';
-import toast from 'react-hot-toast';
-import './Sidebar.css';
+import * as authApi from "../../api/authenticate";
+import toast from "react-hot-toast";
+import "./Sidebar.css";
 
 const Sidebar = () => {
-  const { isLoggedIn, setAccessToken, accountRole } = useAuth();
+  const { isLoggedIn, setAccessToken, userRole } = useAuth();
   // const { setCurrentPage } = useJob();
   const navigate = useNavigate();
 
   //Log out logic
-  // const handleLogout = async () => {
-  //   //Remove refresh token
-  //   try {
-  //     await authApi.signout();
-  //     setAccessToken(null);
-  //     toast.success('Logged out successfully');
-  //     navigate('/');
-  //   } catch (err) {
-  //     console.error(
-  //       'Logout failed:',
-  //       err.response?.data?.message || err.message,
-  //     );
-  //   }
-  // };
+  const handleLogout = async () => {
+    //Remove refresh token
+    try {
+      await authApi.signout();
+      setAccessToken(null);
+      toast.success('Logged out successfully');
+      navigate('/');
+    } catch (err) {
+      console.error(
+        'Logout failed:',
+        err.response?.data?.message || err.message,
+      );
+      toast.error('An error occurred.');
+    }
+  };
 
   return (
     <div className="sidebar py-5 flex flex-col justify-around text-[#fff] bg-[#4c50d3]">
@@ -38,8 +39,9 @@ const Sidebar = () => {
       </Link>
       <ul className="flex flex-col font-bold">
         <Link to="/">
-          <li className="sidebar-item" 
-          // onClick={() => setCurrentPage(1)}
+          <li
+            className="sidebar-item"
+            // onClick={() => setCurrentPage(1)}
           >
             <ion-icon name="home"></ion-icon>
             Home
@@ -49,26 +51,32 @@ const Sidebar = () => {
         {isLoggedIn ? (
           <div>
             <Link
-              to={accountRole === 'applicant' ? '/job/applied' : '/job/created'}
+              to={
+                userRole === "customer"
+                  ? "/courses/enrolled"
+                  : "/courses/created"
+              }
             >
               <li className="sidebar-item">
                 <ion-icon name="briefcase"></ion-icon>
-                Manage Jobs
+                Manage Courses
               </li>
             </Link>
-            <Link to="/my-profile">
-              <li className="sidebar-item">
-                <i className="fa fa-user"></i>
-                My Profile
-              </li>
-            </Link>
-            {accountRole === 'company' && (
-              <Link to="/job/new">
-                <li className="sidebar-item">
-                  <i className="fa fa-edit"></i>
-                  Create New Job
-                </li>
-              </Link>
+            {userRole === "provider" && (
+              <>
+                <Link to="/my-profile">
+                  <li className="sidebar-item">
+                    <i className="fa fa-user"></i>
+                    My Profile
+                  </li>
+                </Link>
+                <Link to="/course/new">
+                  <li className="sidebar-item">
+                    <i className="fa fa-edit"></i>
+                    Create New Course
+                  </li>
+                </Link>
+              </>
             )}
             {/* Log out/Log in button */}
             <button
@@ -80,10 +88,10 @@ const Sidebar = () => {
             </button>
           </div>
         ) : (
-          <Link to="/signin">
+          <Link to="/login">
             <li className="sidebar-item">
               <ion-icon name="log-in"></ion-icon>
-              Sign In
+              Log In
             </li>
           </Link>
         )}
