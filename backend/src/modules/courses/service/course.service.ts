@@ -99,9 +99,12 @@ export class CourseService {
   }
 
   async getCreatedCourses(userId: string): Promise<Course[]> {
-    const courses = await this.courseRepository.find({
-      where: { createdBy: { user: { id: userId } } },
-    });
+    const courses = await this.courseRepository
+      .createQueryBuilder('course')
+      .leftJoinAndSelect('course.createdBy', 'provider')
+      .leftJoin('provider.user', 'user')
+      .where('user.id = :userId', { userId })
+      .getMany();
     return courses;
   }
 

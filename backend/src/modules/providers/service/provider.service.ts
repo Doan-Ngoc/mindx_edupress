@@ -80,4 +80,15 @@ export class ProviderService {
 
     return provider;
   }
+
+  async getByProviderId(id: string): Promise<Provider> {
+    const provider = await this.providerRepository.findOne({
+      where: { id },
+      relations: ['user'],
+    });
+    if (!provider) {
+      throw new NotFoundException(`Provider with ID ${id} not found`);
+    }
+    return provider;
+  }
 }
