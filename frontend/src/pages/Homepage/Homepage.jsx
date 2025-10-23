@@ -72,7 +72,7 @@ const Homepage = () => {
                 handlePageClick(pageNumber);
               }}
               className={`join-item btn ${isActive ? "btn-active" : ""}`}
-              disabled={isActive} // optional: make it visually disabled
+              disabled={isActive} 
             >
               {pageNumber}
             </button>

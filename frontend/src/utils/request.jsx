@@ -27,7 +27,7 @@ request.interceptors.response.use(
         const response = await authApi.refreshAccessToken();
         const newAccessToken = response.data.accessToken;
         if (newAccessToken) {
-          updateAccessToken(newAccessToken); // ✅ Update token in context
+          updateAccessToken(newAccessToken); // Update token in context
           // Retry original request with new token
           error.config.headers["Authorization"] = `Bearer ${newAccessToken}`;
           return axios(error.config);

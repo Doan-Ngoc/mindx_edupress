@@ -7,7 +7,11 @@ const CourseItem = (props) => {
       <div className="w-24 h-24 bg-white avatar">
         <div className="w-24 h-24 rounded-lg">
           <img
-            src={`${courseData.thumbnail}`}
+            src={
+              courseData.thumbnail
+                ? courseData.thumbnail
+                : "https://res.cloudinary.com/dud0qzk5u/image/upload/v1750323999/jobboard/profilePictures/default_photo_cg33aj.jpg"
+            }
             alt="Course Thumbnail"
             className="w-44 h-44 rounded-full object-cover"
           />
@@ -21,7 +25,9 @@ const CourseItem = (props) => {
         <div className="flex job-item-details gap-8">
           <div className="flex-1 text-left flex flex-col gap-1 py-auto py-3">
             <Link to={`/provider/${courseData.createdBy.id}`}>
-              <p className="font-semibold">{courseData.createdBy.name}</p>
+              <p className="font-semibold">
+                {courseData.createdBy.displayedName}
+              </p>
             </Link>
           </div>
 

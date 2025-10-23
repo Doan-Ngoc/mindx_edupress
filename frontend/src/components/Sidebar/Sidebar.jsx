@@ -1,6 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
-// import { useJob } from '../../hooks/useJob';
 import * as authApi from "../../api/authenticate";
 import toast from "react-hot-toast";
 import "./Sidebar.css";
@@ -64,12 +63,6 @@ const Sidebar = () => {
             </Link>
             {userRole === "provider" && (
               <>
-                <Link to="/my-profile">
-                  <li className="sidebar-item">
-                    <i className="fa fa-user"></i>
-                    My Profile
-                  </li>
-                </Link>
                 <Link to="/course/new">
                   <li className="sidebar-item">
                     <i className="fa fa-edit"></i>

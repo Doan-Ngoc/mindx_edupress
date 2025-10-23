@@ -1,35 +1,21 @@
-import {
-  Card,
-  Input,
-  Typography,
-  Button,
-  Dialog
-  // Dialog,
-  // DialogBody,
-  // DialogFooter,
-} from "@material-tailwind/react";
-import { useState, useEffect } from "react";
+import { Input, Typography, Button } from "@material-tailwind/react";
 import { useForm } from "react-hook-form";
-import { useAuth } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import * as courseApi from "../../api/course";
-import { request } from "../../utils/request";
 import toast from "react-hot-toast";
-import { yupResolver } from '@hookform/resolvers/yup';
+import { yupResolver } from "@hookform/resolvers/yup";
 import { InputWrapper } from "../../components/InputWrapper";
 import { createCourseSchema } from "../../utils/validation-schemas";
 
 const CreateCourse = () => {
-  //Use React Hook Form
-  // const { register, handleSubmit } = useForm();
-    const {
-      register,
-      handleSubmit,
-      formState: { errors },
-    } = useForm({
-      resolver: yupResolver(createCourseSchema),
-      mode: 'onSubmit',
-    });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(createCourseSchema),
+    mode: "onSubmit",
+  });
   const navigate = useNavigate();
   const defaultThumbnail =
     "https://res.cloudinary.com/dud0qzk5u/image/upload/v1750323999/jobboard/profilePictures/default_photo_cg33aj.jpg";
@@ -37,7 +23,7 @@ const CreateCourse = () => {
   //Submit form
   const handleFormSubmit = async (data) => {
     try {
-      //Submit course 
+      //Submit course
       const response = await courseApi.createCourse({
         ...data,
         thumbnail: defaultThumbnail,
@@ -56,20 +42,20 @@ const CreateCourse = () => {
 
   return (
     <>
-        <div className="h-full flex flex-col justify-center items-center">
-          <Typography variant="h1" className="text-2xl font-bold">
-            Create New Course
-          </Typography>
-          <form
-            className="mt-8 mb-2 w-5/6 max-w-screen-lg mx-auto text-lg"
-            onSubmit={handleSubmit(handleFormSubmit)}
-          >
-            <div className="mb-1 flex flex-col gap-6 w-100 text-lg">
-              {/* Course Title */}
-              <InputWrapper error={errors.title}>
+      <div className="h-full flex flex-col justify-center items-center">
+        <Typography variant="h1" className="text-2xl font-bold">
+          Create New Course
+        </Typography>
+        <form
+          className="mt-8 mb-2 w-5/6 max-w-screen-lg mx-auto text-lg"
+          onSubmit={handleSubmit(handleFormSubmit)}
+        >
+          <div className="mb-1 flex flex-col gap-6 w-100 text-lg">
+            {/* Course Title */}
+            <InputWrapper error={errors.title}>
               <Typography
-               as="label"
-              htmlFor="title"
+                as="label"
+                htmlFor="title"
                 variant="h6"
                 color="blue-gray"
                 className="mb-3 text-lg "
@@ -77,19 +63,19 @@ const CreateCourse = () => {
                 Title
               </Typography>
               <Input
-              id="title"
+                id="title"
                 size="lg"
                 className="text-xl bg-white !border-t-blue-gray-200 focus:!border-t-gray-900"
                 required
                 {...register("title")}
                 error={errors.title}
               />
-              </InputWrapper>
+            </InputWrapper>
 
-              {/* Course Price */}
-              <InputWrapper error={errors.price}>
+            {/* Course Price */}
+            <InputWrapper error={errors.price}>
               <Typography
-               as="label"
+                as="label"
                 htmlFor="price"
                 variant="h6"
                 color="blue-gray"
@@ -105,12 +91,12 @@ const CreateCourse = () => {
                 {...register("price")}
                 error={errors.price}
               />
-              </InputWrapper>
+            </InputWrapper>
 
-              {/* Course description */}
-              <InputWrapper error={errors.description}>
+            {/* Course description */}
+            <InputWrapper error={errors.description}>
               <Typography
-               as="label"
+                as="label"
                 htmlFor="description"
                 variant="h6"
                 color="blue-gray"
@@ -127,19 +113,19 @@ const CreateCourse = () => {
                 {...register("description")}
                 error={errors.description}
               ></textarea>
-              </InputWrapper>
-            </div>
+            </InputWrapper>
+          </div>
 
-            {/* Submit button */}
-            <Button
-              className="btn mt-10 mx-auto text-white  font-medium w-1/3"
-              type="submit"
-              variant="solid"
-            >
-              Submit
-            </Button>
-          </form>
-        </div>
+          {/* Submit button */}
+          <Button
+            className="btn mt-10 mx-auto text-white  font-medium w-1/3"
+            type="submit"
+            variant="solid"
+          >
+            Submit
+          </Button>
+        </form>
+      </div>
     </>
   );
 };

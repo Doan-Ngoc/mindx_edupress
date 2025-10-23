@@ -12,6 +12,7 @@ import Login from "./pages/Login";
 import CreateCourse from "./pages/CreateCourse/CreateCourse";
 import ManageCoursesForProviders from "./pages/ManageCourses/ManageCoursesForProviders";
 import ManageCoursesForCustomers from "./pages/ManageCourses/ManageCoursesForCustomers";
+import ProviderProfile from "./pages/ProviderProfile/CompanyProfile";
 import ProviderOnly from "./components/ProviderOnly";
 import CustomerOnly from "./components/CustomerOnly";
 import { ErrorPage } from "./pages/errors/ErrorPage";
@@ -26,6 +27,7 @@ function App() {
       <Routes>
         <Route path="/course/:courseId" element={<CourseDescription />} />
         <Route path="/courses/search" element={<SearchPage />} />
+        <Route path="/provider/:userId" element={<ProviderProfile />} />
         <Route path="/signup/customer" element={<NewCustomer />} />
         <Route path="/signup/provider" element={<NewProvider />} />
         <Route path="/signup" element={<Signup />} />

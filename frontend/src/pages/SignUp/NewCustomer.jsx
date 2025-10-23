@@ -1,6 +1,6 @@
 import { Button, Input, Card, Typography } from "@material-tailwind/react";
 import { useForm } from "react-hook-form";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { InputWrapper } from "../../components/InputWrapper";
 import { customerSchema } from "../../utils/validation-schemas";
@@ -24,7 +24,6 @@ export default function NewCustomer() {
   const [profilePic, setProfilePic] = useState(defaultAvatar);
 
   const onSubmit = async (data) => {
-    console.log("Customer data to submit:", data);
     setIsLoading(true);
     // Send data to backend
     try {
@@ -34,7 +33,7 @@ export default function NewCustomer() {
       });
       setIsLoading(false);
       toast.success("Your account is created successfully!");
-      navigate(`/signin`);
+      navigate(`/login`);
     } catch (err) {
       console.error(
         "Creating profile failed: ",

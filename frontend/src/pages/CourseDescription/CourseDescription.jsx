@@ -1,8 +1,6 @@
 import "./CourseDescription.css";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
-// import { useAuth } from "../../hooks/useAuth";
-// import * as applicantApi from "../../api/applicant";
 import { request } from "../../utils/request";
 import toast from "react-hot-toast";
 import Loading from "../../components/Loading";
@@ -12,11 +10,10 @@ import * as courseApi from "../../api/course";
 
 const CourseDescription = () => {
    const navigate = useNavigate();
-     const { courseId } = useParams();
+   const { courseId } = useParams();
     const { userRole, isLoggedIn } = useAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [courseData, setCourseData] = useState();
-  const [openDialog, setOpenDialog] = useState(false);
 
   //Fetch course data
   useEffect(() => {
@@ -43,23 +40,6 @@ const CourseDescription = () => {
     toast.error("An error occurred.");
   }
   }
-  // Will implement enrollment logic later
-
-  //Submit application
-  // const submitApplication = async () => {
-  //   try {
-  //     setOpenDialog(!openDialog);
-  //     await applicantApi.sendApplication(accessToken, courseId);
-  //     toast.success("Your application has been sent!");
-  //     navigate("/job/applied");
-  //   } catch (err) {
-  //     console.error(
-  //       "Sending application failed",
-  //       err.response?.data?.message || err.message
-  //     );
-  //     toast.error("Something went wrong! Please try again later.");
-  //   }
-  // };
 
   return (
     isLoading ? (
@@ -81,7 +61,7 @@ const CourseDescription = () => {
               <h1 className="text-3xl font-bold text-left pl-4">
                 {courseData.title}
               </h1>
-              <Link to={`/profile/company/${courseData.createdBy}`}>
+              <Link to={`/provider/${courseData.createdBy.id}`}>
                 <p className="cursor-pointer text-xl py-6 text-left pl-4">
                   {courseData.createdBy.displayedName}
                 </p>

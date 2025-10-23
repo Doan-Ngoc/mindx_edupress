@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
     setUpdateAccessToken(setAccessToken);
   }, []);
 
-  // 🟩 THÊM MỚI: khởi tạo access token khi app load lại
+  // Check tình trạng đăng nhập khi app load lại
   useEffect(() => {
     const initAuth = async () => {
       try {
@@ -24,10 +24,8 @@ export const AuthProvider = ({ children }) => {
         const newToken = res.data.accessToken;
         if (newToken) {
           setAccessToken(newToken);
-          console.log("Token refreshed on startup");
         }
       } catch (err) {
-        console.log("No valid refresh token or refresh failed");
         setAccessToken(null);
       }
     };
@@ -36,7 +34,6 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const checkLoginStatus = async () => {
-        console.log('Checking login status with access token:', accessToken);
       setLoadingAuth(true);
       try {
         //Try reissue the access token if the user has a valid refresh token
@@ -54,7 +51,6 @@ export const AuthProvider = ({ children }) => {
           request.defaults.headers.common[
             'Authorization'
           ] = `Bearer ${accessToken}`;
-          console.log('User is logged in', response.data);
         }
       } catch (error) {
         console.error(
